@@ -1,6 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
+const validCommands = [
+  { command: "Look" },
+  { command: "DropBomb" },
+  { command: ["SetName", "<name>"] },
+  { command: "MoveNorth" },
+  { command: "MoveSouth" },
+  { command: "MoveEast" },
+  { command: "MoveWest" },
+];
+
 export const WebSocketDemo = () => {
   //Public API that will echo messages sent to it back to the client
   const [socketUrl, setSocketUrl] = useState("ws://172.16.173.86:8080");
@@ -10,7 +20,7 @@ export const WebSocketDemo = () => {
 
   useEffect(() => {
     if (lastMessage !== null) {
-      setMessageHistory((prev) => prev.concat(lastMessage));
+      // setMessageHistory((prev) => prev.concat(lastMessage));
     }
   }, [lastMessage, setMessageHistory]);
 
@@ -19,7 +29,10 @@ export const WebSocketDemo = () => {
     []
   );
 
-  const handleClickSendMessage = useCallback(() => sendMessage("Hello"), []);
+  const handleClickSendMessage = useCallback(
+    () => sendMessage(JSON.stringify({ command: "Look" })),
+    []
+  );
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -36,15 +49,16 @@ export const WebSocketDemo = () => {
       </button>
       <button
         onClick={handleClickSendMessage}
-        disabled={readyState !== ReadyState.OPEN}
+        // disabled={readyState !== ReadyState.OPEN}
       >
         Click Me to send 'Hello'
       </button>
       <span>The WebSocket is currently {connectionStatus}</span>
-      {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
+      {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
+      {/*  of the board */}
       <ul>
         {messageHistory.map((message, idx) => (
-          <span key={idx}>{message ? message.data : null}</span>
+          <code key={idx}> {message ? message.data : null}</code>
         ))}
       </ul>
     </div>
