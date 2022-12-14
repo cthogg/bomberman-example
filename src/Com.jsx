@@ -115,13 +115,50 @@ export const WebSocketDemo = () => {
       ))}
       <button onClick={handleClickSetName}>Set name</button>
       <span>The WebSocket is currently {connectionStatus}</span>
-      {/* {lastMessage ? <code>Last message: {lastMessage.data}</code> : null} */}
+      {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
       {/*  of the board */}
       {/* <ul>
         {messageHistory.map((message, idx) => (
           <code key={idx}> {message ? message.data : null}</code>
         ))}
       </ul> */}
+      {/* create 10 x 10 grid component */}
+      <Grid />
+    </div>
+  );
+};
+
+// 10 x 10 grid component
+// 1. create a 10 x 10 grid
+const Grid = () => {
+  const [grid, setGrid] = useState([]);
+
+  const createGrid = () => {
+    const newGrid = [];
+    for (let i = 0; i < 10; i++) {
+      newGrid.push([]);
+      for (let j = 0; j < 10; j++) {
+        newGrid[i].push(0);
+      }
+    }
+    setGrid(newGrid);
+  };
+
+  useEffect(() => {
+    createGrid();
+  }, []);
+
+  return (
+    <div style={{ display: "flex" }}>
+      {grid.map((row, i) => (
+        <div style={{ width: "16px", height: "16px" }}>
+          {row.map((col, j) => (
+            <div>
+              <code> {col} </code>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
