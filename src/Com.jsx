@@ -4,7 +4,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 const validCommands = [
   { command: "Look" },
   { command: "DropBomb" },
-  { command: ["SetName", "<name>"] },
+  { command: ["SetName", "mrjavascripter"] },
   { command: "MoveNorth" },
   { command: "MoveSouth" },
   { command: "MoveEast" },
@@ -29,9 +29,43 @@ export const WebSocketDemo = () => {
     []
   );
 
-  const handleClickSendMessage = useCallback(
+  const commmands = [
+    "Look",
+    "DropBomb",
+    "MoveNorth",
+    "MoveSouth",
+    "MoveEast",
+    "MoveWest",
+  ];
+
+  const createHandler = (command) => {
+    return () => sendMessage(JSON.stringify({ command }));
+  };
+
+  const handleClickLook = useCallback(
     () => sendMessage(JSON.stringify({ command: "Look" })),
-    []
+    [sendMessage]
+  );
+
+  const handleClickMoveNorth = useCallback(
+    () => sendMessage(JSON.stringify({ command: "MoveNorth" })),
+    [sendMessage]
+  );
+
+  const handleClickMoveSouth = useCallback(
+    () => sendMessage(JSON.stringify({ command: "MoveSouth" })),
+    [sendMessage]
+  );
+
+  const handleClickDropBomb = useCallback(
+    () => sendMessage(JSON.stringify({ command: "DropBomb" })),
+    [sendMessage]
+  );
+
+  const handleClickSetName = useCallback(
+    () =>
+      sendMessage(JSON.stringify({ command: ["SetName", "mrjavascripter"] })),
+    [sendMessage]
   );
 
   const connectionStatus = {
@@ -47,11 +81,26 @@ export const WebSocketDemo = () => {
       <button onClick={handleClickChangeSocketUrl}>
         Click Me to change Socket Url
       </button>
+      {commmands.map((command) => (
+        <button onClick={createHandler(command)}>{command}</button>
+      ))}
       <button
-        onClick={handleClickSendMessage}
+        onClick={handleClickSetName}
         // disabled={readyState !== ReadyState.OPEN}
       >
-        Click Me to send 'Hello'
+        Click Me to Set name
+      </button>
+      <button
+        onClick={handleClickMoveNorth}
+        // disabled={readyState !== ReadyState.OPEN}
+      >
+        Click Me to move north
+      </button>
+      <button
+        onClick={handleClickMoveSouth}
+        // disabled={readyState !== ReadyState.OPEN}
+      >
+        Click Me to move south
       </button>
       <span>The WebSocket is currently {connectionStatus}</span>
       {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
