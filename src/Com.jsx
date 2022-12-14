@@ -18,6 +18,35 @@ export const WebSocketDemo = () => {
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
+  const handleKeyPress = useCallback((event) => {
+    if (event.key === "w") {
+      sendMessage(JSON.stringify({ command: "MoveNorth" }));
+    }
+    if (event.key === "s") {
+      sendMessage(JSON.stringify({ command: "MoveSouth" }));
+    }
+    if (event.key === "a") {
+      sendMessage(JSON.stringify({ command: "MoveWest" }));
+    }
+    if (event.key === "d") {
+      sendMessage(JSON.stringify({ command: "MoveEast" }));
+    }
+    if (event.key === "b") {
+      sendMessage(JSON.stringify({ command: "DropBomb" }));
+    }
+    console.log(`Key pressed: ${event.key}`);
+  }, []);
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   useEffect(() => {
     if (lastMessage !== null) {
       // setMessageHistory((prev) => prev.concat(lastMessage));
@@ -34,8 +63,8 @@ export const WebSocketDemo = () => {
     "DropBomb",
     "MoveNorth",
     "MoveSouth",
-    "MoveEast",
     "MoveWest",
+    "MoveEast",
   ];
 
   const createHandler = (command) => {
@@ -86,13 +115,13 @@ export const WebSocketDemo = () => {
       ))}
       <button onClick={handleClickSetName}>Set name</button>
       <span>The WebSocket is currently {connectionStatus}</span>
-      {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
+      {/* {lastMessage ? <code>Last message: {lastMessage.data}</code> : null} */}
       {/*  of the board */}
-      <ul>
+      {/* <ul>
         {messageHistory.map((message, idx) => (
           <code key={idx}> {message ? message.data : null}</code>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };
