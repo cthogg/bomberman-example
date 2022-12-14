@@ -84,6 +84,7 @@ export const WebSocketDemo = () => {
       {commmands.map((command) => (
         <button onClick={createHandler(command)}>{command}</button>
       ))}
+      <button onClick={handleClickSetName}>Set name</button>
       <span>The WebSocket is currently {connectionStatus}</span>
       {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
       {/*  of the board */}
