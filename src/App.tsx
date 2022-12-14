@@ -1,10 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { WebSocketDemo } from './Com';
+import logo from './logo.svg';
+
+
+// 172.16.173.86:8080
 
 function App() {
   return (
     <div className="App">
+      <WebSocketDemo/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
