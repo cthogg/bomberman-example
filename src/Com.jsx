@@ -84,24 +84,6 @@ export const WebSocketDemo = () => {
       {commmands.map((command) => (
         <button onClick={createHandler(command)}>{command}</button>
       ))}
-      <button
-        onClick={handleClickSetName}
-        // disabled={readyState !== ReadyState.OPEN}
-      >
-        Click Me to Set name
-      </button>
-      <button
-        onClick={handleClickMoveNorth}
-        // disabled={readyState !== ReadyState.OPEN}
-      >
-        Click Me to move north
-      </button>
-      <button
-        onClick={handleClickMoveSouth}
-        // disabled={readyState !== ReadyState.OPEN}
-      >
-        Click Me to move south
-      </button>
       <span>The WebSocket is currently {connectionStatus}</span>
       {lastMessage ? <code>Last message: {lastMessage.data}</code> : null}
       {/*  of the board */}
